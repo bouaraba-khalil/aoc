@@ -47,6 +47,32 @@ func main() {
 
 	fmt.Printf("Part 1 : %d\n", result)
 
+	aIndexes := []Point{}
+	for x, rows := range data {
+		for y, char := range rows {
+			if char == 'A' {
+				aIndexes = append(aIndexes, Point{x: x, y: y})
+			}
+		}
+	}
+	result = 0
+	for _, point := range aIndexes {
+		exist := 0
+		if (point.x-1 < 0) || (point.x+1 >= len(data)) || (point.y-1 < 0) || (point.y+1 >= len(data[0])) {
+			continue
+		}
+		if (data[point.x-1][point.y-1] == 'M' && data[point.x+1][point.y+1] == 'S') || (data[point.x-1][point.y-1] == 'S' && data[point.x+1][point.y+1] == 'M') {
+			exist += 1
+		}
+		if (data[point.x+1][point.y-1] == 'M' && data[point.x-1][point.y+1] == 'S') || (data[point.x+1][point.y-1] == 'S' && data[point.x-1][point.y+1] == 'M') {
+			exist += 1
+		}
+		if exist == 2 {
+			result += 1
+		}
+	}
+	fmt.Printf("Part 2 : %d\n", result)
+
 }
 
 func checkPoint(point Point, data []string) int {
